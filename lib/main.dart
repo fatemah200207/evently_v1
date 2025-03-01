@@ -4,7 +4,9 @@ import 'package:evently_v1/core/routes/routes.dart';
 import 'package:evently_v1/core/routes/routes_name.dart';
 import 'package:evently_v1/core/theme/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 void main() {
@@ -17,11 +19,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => appProvider(),
+      create: (context) => appProvider()..getTheme()..getLang(),
       builder: (context, child) {
         var provider = Provider.of<appProvider>(context);
         return MaterialApp(
           title: 'Flutter Demo',
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en'),
+            Locale('ar'),
+          ],
+          locale: Locale(provider.lang),
           theme: appTheme.lightTheme,
           darkTheme: appTheme.darkTheme,
           themeMode: provider.themeMode,
@@ -31,6 +44,12 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+}
+
+extension Localization on BuildContext{
+
+  get tr => AppLocalizations.of(this)!;
+
 }
 
 class MyHomePage extends StatefulWidget {

@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:evently_v1/core/constants/app_assets.dart';
 import 'package:evently_v1/core/provider/app_provider.dart';
+import 'package:evently_v1/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class startScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                textDirection: TextDirection.ltr,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   FadeInLeftBig(child: Image.asset(appAssets.appLogo,width: 40,)),
@@ -41,10 +43,14 @@ class startScreen extends StatelessWidget {
               Spacer(),
               Expanded(
                 flex: 6,
-                child: Center(child: Image.asset(appAssets.startImage)),),
+                child: Center(
+                    child: Image.asset(
+                        appAssets.startImage,
+
+                    )),),
               Spacer(),
               Text(
-                'Personalize Your Experience',
+                context.tr.start_title,
                 style: TextStyle(
                   color: theme.primaryColor,
                   fontSize: 24,
@@ -53,25 +59,28 @@ class startScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10,),
               Text(
-                'Choose your preferred theme and language to get started with a comfortable, tailored experience that suits your style.',
+                context.tr.start_description,
                 style: theme.textTheme.bodyMedium,
               ),
               Spacer(),
               Expanded(
                 child: Row(
+                  textDirection: TextDirection.ltr,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Language',
+                      context.tr.lang,
                       style: TextStyle(
                         color: theme.primaryColor,
                         fontSize: 24,
                       ),
                     ),
                     AnimatedToggleSwitch<String>.rolling(
-                      current: "en",
+                      current: provider.lang,
                       values: ["en","ar"],
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        provider.changeLanguage();
+                      },
                       iconList: [
                         Image.asset(appAssets.enIcon),
                         Image.asset(appAssets.arIcon),
@@ -89,10 +98,12 @@ class startScreen extends StatelessWidget {
               ),
               Expanded(
                 child:Row(
+                  textDirection: TextDirection.ltr,
+
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Theme',
+                      context.tr.theme,
                       style: TextStyle(
                         color: theme.primaryColor,
                         fontSize: 24,
@@ -120,6 +131,7 @@ class startScreen extends StatelessWidget {
                     ),
                   ],
                 ),),
+              SizedBox(height: 10,),
               Expanded(
                 child: Row(
                   children: [
@@ -128,13 +140,14 @@ class startScreen extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: theme.primaryColor,
                               padding: EdgeInsets.all(16),
-                              //fixedSize: Size(500, 50),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16),
                               )
                           ),
                           onPressed: () {},
-                          child:const Text("Let's Start", style: TextStyle(color: Colors.white, fontSize: 18),)),
+                          child: Text(
+                            context.tr.l_start,
+                            style: TextStyle(color: Colors.white, fontSize: 18),)),
                     ),
                   ],
                 ),
